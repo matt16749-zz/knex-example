@@ -92,6 +92,19 @@ app.delete('/todos/:id', function(req, res) {
   })
 })
 
+app.get('/todos-of-user/:id', function(req, res) {
+  // knex.raw('SELECT * FROM todos INNER JOIN users ON todos.user_id = users.id WHERE todos.user_id = ?', [req.params.id]).then(function(data) {
+  //   res.send(data)
+  // })
+  knex.
+  from('todos').
+  innerJoin('users', 'todos.user_id', 'users.id').
+  where('todos.user_id', req.params.id).
+  then(function(data) {
+    res.send(data)
+  })
+})
+
 app.listen(port, function() {
   console.log('listening on port: ' + port);
 });
